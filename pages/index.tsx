@@ -45,7 +45,7 @@ export default function Home() {
           ref={codeDisplayRef}
           className="code-display absolute top-0 left-0 w-full h-full z-0 overflow-hidden font-mono bg-black text-white"
         >
-          <code >
+          <code className='language-javascript'>
             {code}
           </code>
         </pre>
