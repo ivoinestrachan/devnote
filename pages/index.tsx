@@ -12,7 +12,6 @@ export default function Home() {
   const selectFile = (fileName: string) => {
     setActiveFile(fileName);
   };
-  
 
   useEffect(() => {
     if (codeDisplayRef.current) {
@@ -23,9 +22,8 @@ export default function Home() {
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newCode = e.target.value;
     setCode(newCode);
-    setFiles(prev => ({ ...prev, [activeFile as string]: newCode }));
+    setFiles((prev) => ({ ...prev, [activeFile as string]: newCode }));
   };
-  
 
   const getLineNumbers = () => {
     const numberOfLines = code.split("\n").length;
@@ -63,21 +61,18 @@ export default function Home() {
     }
   };
 
- 
-
   const convertMarkdownToHtml = (markdownText: any) => {
     let htmlText = markdownText;
     htmlText = htmlText.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
     htmlText = htmlText.replace(/\*(.*?)\*/g, "<em>$1</em>");
     htmlText = htmlText.replace(/_(.*?)_/g, "<em>$1</em>");
     htmlText = htmlText.replace(/^- (.*?)(?=\n|$)/gm, "<li>$1</li>");
-  
-  
+
     return htmlText;
   };
 
   const createFile = (fileName: string) => {
-    setFiles(prev => ({ ...prev, [fileName]: "" }));
+    setFiles((prev) => ({ ...prev, [fileName]: "" }));
     setActiveFile(fileName);
   };
 
@@ -86,17 +81,17 @@ export default function Home() {
       setCode(files[activeFile]);
     }
   }, [activeFile, files]);
-  
-  
 
   return (
     <>
-      <Navbar  wrapText={wrapText}
-      createFile={createFile}
-      selectFile={selectFile}
-      fileNames={Object.keys(files)}
-      activeFile={activeFile}
+      <Navbar
+        wrapText={wrapText}
+        createFile={createFile}
+        selectFile={selectFile}
+        fileNames={Object.keys(files)}
+        activeFile={activeFile}
       />
+
       {!activeFile && (
         <div className="text-white text-center mt-[350px] font-bold text-[24px]">
           Welcome To DevNote
@@ -104,43 +99,45 @@ export default function Home() {
       )}
 
       {activeFile && (
-      <div className="flex ">
-        <pre className="text-center select-none border-r border-gray-700 text-gray-500 font-mono h-[100vh] px-2">
-          {getLineNumbers()}
-        </pre>
-        <div className="relative flex-1 flex">
-          <textarea
-            value={code}
-            onChange={handleChange}
-            onScroll={handleScroll}
-            autoComplete="off"
-            spellCheck="false"
-            className="code-input absolute top-0 left-0 w-full h-full z-10 bg-transparent resize-none outline-none font-mono text-white opacity-0"
-          />
-
-          <pre
-            ref={codeDisplayRef}
-            className="code-display absolute top-0 left-0 w-full h-full z-0 overflow-hidden font-mono bg-black text-white flex"
-          >
-            <code>{code}</code>
-
-            <div
-              dangerouslySetInnerHTML={{ __html: convertMarkdownToHtml(code) }}
-            />
+        <div className="flex ">
+          <pre className="text-center select-none border-r border-gray-700 text-gray-500 font-mono h-[100vh] px-2">
+            {getLineNumbers()}
           </pre>
+          <div className="relative flex-1 flex">
+            <textarea
+              value={code}
+              onChange={handleChange}
+              onScroll={handleScroll}
+              autoComplete="off"
+              spellCheck="false"
+              className="code-input absolute top-0 left-0 w-full h-full z-10 bg-transparent resize-none outline-none font-mono text-white opacity-0"
+            />
+
+            <pre
+              ref={codeDisplayRef}
+              className="code-display absolute top-0 left-0 w-full h-full z-0 overflow-hidden font-mono bg-black text-white flex"
+            >
+              <code>{code}</code>
+
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: convertMarkdownToHtml(code),
+                }}
+              />
+            </pre>
+          </div>
+
+          <style jsx>{`
+            .line-numbers,
+            .code-input,
+            .code-display {
+              line-height: 1.5;
+              box-sizing: border-box;
+              background: black;
+            }
+          `}</style>
         </div>
-    
-        <style jsx>{`
-          .line-numbers,
-          .code-input,
-          .code-display {
-            line-height: 1.5;
-            box-sizing: border-box;
-            background: black;
-          }
-        `}</style>
-      </div>
-        )}
+      )}
     </>
   );
 }
