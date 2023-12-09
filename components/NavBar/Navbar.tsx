@@ -15,6 +15,23 @@ const Navbar: React.FC<NavbarProps> = ({ wrapText, createFile, selectFile, fileN
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const makeBold = () => wrapText("**");
+  const makeItalic = () => wrapText("*");
+  const makeBulletPoint = () => {
+    const textarea = document.querySelector(".code-input") as HTMLTextAreaElement;
+    if (!textarea) return;
+  
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selectedText = textarea.value.slice(start, end);
+  
+    const newText = start !== end
+      ? `${textarea.value.slice(0, start)}  • ${selectedText}${textarea.value.slice(end)}\n`
+      : `${textarea.value.slice(0, start)}  • ${textarea.value.slice(start)}\n`;
+  
+    wrapText(newText);
+  };
+  
+
   const handleNewFile = () => {
     setIsCreatingFile(true);
   };
@@ -47,7 +64,7 @@ const Navbar: React.FC<NavbarProps> = ({ wrapText, createFile, selectFile, fileN
   };
 
   return (
-    <div>
+    <div className='mt-2'>
       <button onClick={handleNewFile} className="px-2" style={{ color: 'white' }}>
         New File
       </button>
@@ -67,6 +84,13 @@ const Navbar: React.FC<NavbarProps> = ({ wrapText, createFile, selectFile, fileN
       )}
        <button onClick={makeBold} className="font-bold text-white bg-gray-500 pl-2 pr-2 rounded-[4px]">
         B
+      </button>
+      <button onClick={makeItalic}  className="font-bold text-white bg-gray-500 pl-3 pr-3 rounded-[4px] ml-2">
+      𝐼
+      </button>
+
+      <button onClick={makeBulletPoint}  className="font-bold text-white bg-gray-500 pl-3 pr-3 rounded-[4px] ml-2">
+      Bullet List
       </button>
       <div className="text-white px-2 flex items-center gap-2">
       {files.map((file, index) => (

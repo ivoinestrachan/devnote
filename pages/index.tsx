@@ -68,6 +68,11 @@ export default function Home() {
   const convertMarkdownToHtml = (markdownText: any) => {
     let htmlText = markdownText;
     htmlText = htmlText.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    htmlText = htmlText.replace(/\*(.*?)\*/g, "<em>$1</em>");
+    htmlText = htmlText.replace(/_(.*?)_/g, "<em>$1</em>");
+    htmlText = htmlText.replace(/^- (.*?)(?=\n|$)/gm, "<li>$1</li>");
+  
+  
     return htmlText;
   };
 
