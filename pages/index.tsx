@@ -126,7 +126,7 @@ export default function Home() {
   const getLanguageFromFileName = (fileName: string | null) => {
     if (fileName?.endsWith('.py')) {
       return 'python';
-    } else if (fileName?.endsWith('.js')) {
+    } else if (fileName?.endsWith('')) {
       return 'javascript';
     }
     return null;
