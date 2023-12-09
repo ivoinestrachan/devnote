@@ -38,7 +38,7 @@ const Navbar: React.FC = () => {
 
   return (
     <div>
-      <button onClick={handleNewFile} className="btn btn-light" style={{ color: 'white' }}>
+      <button onClick={handleNewFile} className="px-2" style={{ color: 'white' }}>
         New File
       </button>
       {isCreatingFile && (
@@ -54,9 +54,9 @@ const Navbar: React.FC = () => {
           autoFocus
         />
       )}
-      <div className="text-white">
+      <div className="text-white px-2">
         {files.map((file, index) => (
-          <span key={index} className="mx-1">
+          <span key={index} className="gap-4">
             {file}
             {index < files.length - 1 && ' || '}
           </span>
