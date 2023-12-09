@@ -187,7 +187,7 @@ export default function Home() {
 
             <pre
               ref={codeDisplayRef}
-              className="code-display absolute top-0 left-0 w-full h-full z-0 overflow-hidden font-mono bg-black text-white flex"
+              className="code-display absolute top-0 left-0 w-full h-full z-0 overflow-hidden font-mono bg-black text-white "
             >
               <code>{code}</code>
 
