@@ -2,9 +2,10 @@ import React, { useState, useRef } from 'react';
 
 type NavbarProps = {
   wrapText: (wrapper: string) => void;
+  createFile: (fileName: string) => void;
 };
 
-const Navbar: React.FC<NavbarProps> = ({ wrapText }) => {
+const Navbar: React.FC<NavbarProps> = ({ wrapText, createFile }) => {
   const [files, setFiles] = useState<string[]>([]);
   const [isCreatingFile, setIsCreatingFile] = useState(false);
   const [newFileName, setNewFileName] = useState('');
@@ -22,6 +23,7 @@ const Navbar: React.FC<NavbarProps> = ({ wrapText }) => {
   const handleFileNameSubmit = () => {
     if (newFileName.trim() !== '') {
       setFiles((prevFiles) => [...prevFiles, newFileName]);
+      createFile(newFileName);
       setNewFileName('');
       setIsCreatingFile(false);
     } else {

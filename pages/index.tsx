@@ -1,9 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import Navbar from "../components/NavBar/Navbar";
 
+type FilesType = { [key: string]: string };
+
 export default function Home() {
   const [code, setCode] = useState("");
   const codeDisplayRef = useRef<HTMLPreElement>(null);
+  const [activeFile, setActiveFile] = useState<string | null>(null);
+
+  const [files, setFiles] = useState<FilesType>({});
 
   useEffect(() => {
     if (codeDisplayRef.current) {
@@ -12,8 +17,11 @@ export default function Home() {
   }, [code]);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setCode(e.target.value);
+    const newCode = e.target.value;
+    setCode(newCode);
+    setFiles(prev => ({ ...prev, [activeFile as string]: newCode }));
   };
+  
 
   const getLineNumbers = () => {
     const numberOfLines = code.split("\n").length;
@@ -59,9 +67,29 @@ export default function Home() {
     return htmlText;
   };
 
+  const createFile = (fileName: string) => {
+    setFiles(prev => ({ ...prev, [fileName]: "" }));
+    setActiveFile(fileName);
+  };
+
+  useEffect(() => {
+    if (activeFile) {
+      setCode(files[activeFile]);
+    }
+  }, [activeFile, files]);
+  
+  
+
   return (
     <>
-      <Navbar wrapText={wrapText}/>
+      <Navbar wrapText={wrapText} createFile={createFile}/>
+      {!activeFile && (
+        <div className="text-white text-center mt-[350px] font-bold text-[24px]">
+          Welcome To DevNote
+        </div>
+      )}
+
+      {activeFile && (
       <div className="flex ">
         <pre className="text-center select-none border-r border-gray-700 text-gray-500 font-mono h-[100vh] px-2">
           {getLineNumbers()}
@@ -87,6 +115,7 @@ export default function Home() {
             />
           </pre>
         </div>
+    
         <style jsx>{`
           .line-numbers,
           .code-input,
@@ -97,6 +126,7 @@ export default function Home() {
           }
         `}</style>
       </div>
+        )}
     </>
   );
 }
