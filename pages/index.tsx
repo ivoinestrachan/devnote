@@ -22,7 +22,7 @@ export default function Home() {
     },
     "javascript": {
       "keywords": ["function", "return", "if", "else", "for", "while", "break", "continue", "import", "export", "from", "const", "let", "var"],
-      "color": "green",
+      "color": "lightblue",
       "brackets": ["{", "}", "(", ")", "[", "]"],
       "bracketsColor": "orange"
     },
