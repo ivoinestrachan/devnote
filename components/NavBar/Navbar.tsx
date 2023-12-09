@@ -118,6 +118,8 @@ const Navbar: React.FC<NavbarProps> = ({
       >
         Bullet List
       </button>
+
+      
       <div className="text-white px-2 flex items-center gap-2">
         {files.map((file, index) => (
           <button

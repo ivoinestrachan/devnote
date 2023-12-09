@@ -18,6 +18,7 @@ export default function Home() {
       codeDisplayRef.current.innerHTML = convertMarkdownToHtml(code);
     }
   }, [code]);
+  
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newCode = e.target.value;
@@ -99,10 +100,11 @@ export default function Home() {
       )}
 
       {activeFile && (
-        <div className="flex ">
-          <pre className="text-center select-none border-r border-gray-700 text-gray-500 font-mono h-[100vh] px-2">
+        <div className="flex relative">
+          <pre className="text-center select-none border-r border-gray-500 text-gray-500 font-mono h-[100vh] px-2">
             {getLineNumbers()}
           </pre>
+
           <div className="relative flex-1 flex">
             <textarea
               value={code}
@@ -110,15 +112,20 @@ export default function Home() {
               onScroll={handleScroll}
               autoComplete="off"
               spellCheck="false"
-              className="code-input absolute top-0 left-0 w-full h-full z-10 bg-transparent resize-none outline-none font-mono text-white opacity-0"
+              className="code-input w-[50%] h-full z-10 bg-transparent resize-none outline-none font-mono text-white"
             />
-
+            
+            {/* seperator and line number */}
+            <div className="w-1 bg-gray-500" />
+            <pre className="text-center select-none border-l border-gray-500 text-gray-500 font-mono h-[100vh] px-2">
+              {getLineNumbers()}
+            </pre>
+            
             <pre
               ref={codeDisplayRef}
-              className="code-display absolute top-0 left-0 w-full h-full z-0 overflow-hidden font-mono bg-black text-white flex"
+              className="code-display w-[50%] h-full z-0 overflow-hidden font-mono bg-black text-white flex"
             >
               <code>{code}</code>
-
               <div
                 dangerouslySetInnerHTML={{
                   __html: convertMarkdownToHtml(code),
@@ -126,7 +133,7 @@ export default function Home() {
               />
             </pre>
           </div>
-
+          
           <style jsx>{`
             .line-numbers,
             .code-input,
