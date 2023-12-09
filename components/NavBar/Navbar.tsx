@@ -119,7 +119,13 @@ const Navbar: React.FC<NavbarProps> = ({
         Bullet List
       </button>
 
-      
+      <button
+        // onClick={handleSplitScreen}
+        className="font-bold text-white bg-gray-500 pl-3 pr-3 rounded-[4px] ml-2"
+      >
+        Split
+      </button>
+
       <div className="text-white px-2 flex items-center gap-2">
         {files.map((file, index) => (
           <button
