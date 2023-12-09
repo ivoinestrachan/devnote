@@ -21,8 +21,8 @@ export default function Home() {
       "bracketsColor": "magenta"
     },
     "javascript": {
-      "keywords": ["function", "return", "if", "else", "for", "while", "break", "continue", "import", "export", "from", "const", "let", "var"],
-      "color": "lightblue",
+      "keywords": ["function", "return", "if", "else", "for", "while", "break", "continue", "import", "export", "from", "const", "let", "var", "="],
+      "color": "red",
       "brackets": ["{", "}", "(", ")", "[", "]"],
       "bracketsColor": "orange"
     },
