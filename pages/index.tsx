@@ -51,7 +51,7 @@ export default function Home() {
     }
   };
 
-  const makeBold = () => wrapText("**");
+ 
 
   const convertMarkdownToHtml = (markdownText: any) => {
     let htmlText = markdownText;
@@ -61,10 +61,7 @@ export default function Home() {
 
   return (
     <>
-      <Navbar />
-      <button onClick={makeBold} className="font-bold text-white">
-        Bold
-      </button>
+      <Navbar wrapText={wrapText}/>
       <div className="flex ">
         <pre className="text-center select-none border-r border-gray-700 text-gray-500 font-mono h-[100vh] px-2">
           {getLineNumbers()}

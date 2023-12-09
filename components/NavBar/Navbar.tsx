@@ -1,11 +1,16 @@
 import React, { useState, useRef } from 'react';
 
-const Navbar: React.FC = () => {
+type NavbarProps = {
+  wrapText: (wrapper: string) => void;
+};
+
+const Navbar: React.FC<NavbarProps> = ({ wrapText }) => {
   const [files, setFiles] = useState<string[]>([]);
   const [isCreatingFile, setIsCreatingFile] = useState(false);
   const [newFileName, setNewFileName] = useState('');
   const inputRef = useRef<HTMLInputElement | null>(null);
 
+  const makeBold = () => wrapText("**");
   const handleNewFile = () => {
     setIsCreatingFile(true);
   };
@@ -41,6 +46,7 @@ const Navbar: React.FC = () => {
       <button onClick={handleNewFile} className="px-2" style={{ color: 'white' }}>
         New File
       </button>
+     
       {isCreatingFile && (
         <input
           ref={inputRef}
@@ -54,6 +60,9 @@ const Navbar: React.FC = () => {
           autoFocus
         />
       )}
+       <button onClick={makeBold} className="font-bold text-white bg-gray-500 pl-2 pr-2 rounded-[4px]">
+        B
+      </button>
       <div className="text-white px-2">
         {files.map((file, index) => (
           <span key={index} className="gap-4">
