@@ -13,8 +13,32 @@ export default function Home() {
     setActiveFile(fileName);
   };
 
+  const syntaxHighlightingRules = {
+    "python": {
+      "keywords": ["def", "return", "if", "else", "for", "while", "break", "continue", "import", "from", "as", "print"],
+      "color": "blue",
+      "brackets": ["(", ")"],
+      "bracketsColor": "magenta"
+    },
+    "javascript": {
+      "keywords": ["function", "return", "if", "else", "for", "while", "break", "continue", "import", "export", "from", "const", "let", "var"],
+      "color": "green",
+      "brackets": ["{", "}", "(", ")", "[", "]"],
+      "bracketsColor": "orange"
+    },
+    "html": {
+      "tags": ["<!DOCTYPE html>", "<html>", "</html>", "<head>", "</head>", "<body>", "</body>", "<div>", "</div>", "<span>", "</span>", "<p>", "</p>", "<a>", "</a>", "<ul>", "</ul>", "<li>", "</li>", "<h1>", "</h1>", "<h2>", "</h2>", "<h3>", "</h3>", "<h4>", "</h4>", "<h5>", "</h5>", "<h6>", "</h6>", "<br>", "<hr>", "<img>", "<src>"],
+      "color": "brown",
+      "attributes": ["href", "src", "id", "class", "alt", "title", "style"],
+      "attributesColor": "red"
+    }
+  };
+  
+  
+
   useEffect(() => {
     if (codeDisplayRef.current) {
+      //@ts-ignore
       codeDisplayRef.current.innerHTML = convertMarkdownToHtml(code);
     }
   }, [code]);
@@ -61,15 +85,61 @@ export default function Home() {
     }
   };
 
-  const convertMarkdownToHtml = (markdownText: any) => {
+  const convertMarkdownToHtml = (markdownText: string, language: string | number | undefined) => {
     let htmlText = markdownText;
+  
     htmlText = htmlText.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
     htmlText = htmlText.replace(/\*(.*?)\*/g, "<em>$1</em>");
     htmlText = htmlText.replace(/_(.*?)_/g, "<em>$1</em>");
     htmlText = htmlText.replace(/^- (.*?)(?=\n|$)/gm, "<li>$1</li>");
+  
+ //@ts-ignore
+ const rules = syntaxHighlightingRules[language];
+ if (rules) {
+   
+   rules.keywords?.forEach((keyword: any) => {
+     const regex = new RegExp(`\\b${keyword}\\b`, 'g');
+     htmlText = htmlText.replace(regex, `<span style='color: ${rules.color};'>${keyword}</span>`);
+   });
 
+   rules.brackets?.forEach((bracket: string) => {
+     const escapedBracket = bracket.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+     const regex = new RegExp(escapedBracket, 'g');
+     htmlText = htmlText.replace(regex, `<span style='color: ${rules.bracketsColor};'>${bracket}</span>`);
+   });
+
+   if (language === 'html') {
+     rules.tags?.forEach((tag: string) => {
+       const regex = new RegExp(tag.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+       htmlText = htmlText.replace(regex, `<span style='color: ${rules.color};'>${tag}</span>`);
+     });
+     rules.attributes?.forEach((attribute: any) => {
+       const regex = new RegExp(`\\b${attribute}\\b`, 'g');
+       htmlText = htmlText.replace(regex, `<span style='color: ${rules.attributesColor};'>${attribute}</span>`);
+     });
+   }
+ }
+  
     return htmlText;
   };
+
+  const getLanguageFromFileName = (fileName: string | null) => {
+    if (fileName?.endsWith('.py')) {
+      return 'python';
+    } else if (fileName?.endsWith('.js')) {
+      return 'javascript';
+    }
+    return null;
+  };
+  
+  
+  useEffect(() => {
+    if (codeDisplayRef.current) {
+      const language = getLanguageFromFileName(activeFile);
+      codeDisplayRef.current.innerHTML = convertMarkdownToHtml(code, language || "");
+    }
+  }, [code, activeFile]);
+  
 
   const createFile = (fileName: string) => {
     setFiles((prev) => ({ ...prev, [fileName]: "" }));
@@ -81,6 +151,8 @@ export default function Home() {
       setCode(files[activeFile]);
     }
   }, [activeFile, files]);
+
+  
 
   return (
     <>
@@ -120,7 +192,9 @@ export default function Home() {
               <code>{code}</code>
 
               <div
+              
                 dangerouslySetInnerHTML={{
+                  //@ts-ignore
                   __html: convertMarkdownToHtml(code),
                 }}
               />
