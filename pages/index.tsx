@@ -27,35 +27,24 @@ export default function Home() {
     }
   };
 
-  return (
+const blinker = () => {
+  const lines = code.split('\n');
+  const lineNumber = lines.length;
+  const lastLineLength = lines[lineNumber - 1].length;
+  return {
+    top: (lineNumber - 1) * 1.5 + "em",
+    left: lastLineLength % 60 + "ch" 
+  };
+};
 
+  
+
+  return (
     <>
     <Navbar />
       <div className="flex ">
         <pre className="text-center select-none border-r border-gray-700 text-gray-500 font-mono h-[100vh] px-2">
           {getLineNumbers()}
-
-    <div className="flex ">
-      <pre className="text-center select-none border-r border-gray-700 text-gray-500 font-mono h-[100vh] px-2">
-        {getLineNumbers()}
-      </pre>
-      <div className="relative flex-1 flex">
-        <textarea
-          value={code}
-          onChange={handleChange}
-          onScroll={handleScroll}
-          autoComplete="off"
-          spellCheck="false"
-          className="code-input absolute top-0 left-0 w-full h-full z-10 bg-transparent resize-none outline-none font-mono text-white opacity-0"
-        />
-        <pre
-          ref={codeDisplayRef}
-          className="code-display absolute top-0 left-0 w-full h-full z-0 overflow-hidden font-mono bg-black text-white"
-        >
-          <code className='language-javascript'>
-            {code}
-          </code>
-
         </pre>
         <div className="relative flex-1 flex">
           <textarea
@@ -68,11 +57,13 @@ export default function Home() {
           />
           <pre
             ref={codeDisplayRef}
-            className="code-display absolute top-0 left-0 w-full h-full z-0 overflow-hidden font-mono bg-black text-white"
+            className="code-display absolute top-0 left-0 w-full h-full z-0 overflow-hidden font-mono bg-black text-white flex"
           >
             <code className='language-javascript'>
               {code}
             </code>
+            <div className="absolute h-[1.4rem] bg-white w-[4px] blinker" style={{ top: blinker().top, left: blinker().left }}></div>
+
           </pre>
         </div>
         <style jsx>{`
@@ -83,6 +74,15 @@ export default function Home() {
             padding: 0;
             box-sizing: border-box;
             background: black;
+          }
+
+          .blinker {
+            animation: blink-animation 1s steps(5, start) infinite;
+          }
+          @keyframes blink-animation {
+            to {
+              visibility: hidden;
+            }
           }
         `}</style>
       </div>
