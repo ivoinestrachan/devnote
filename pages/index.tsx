@@ -92,9 +92,6 @@ export default function Home() {
           .code-input,
           .code-display {
             line-height: 1.5;
-            font-size: 16px;
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
             background: black;
           }
