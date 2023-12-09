@@ -9,6 +9,10 @@ export default function Home() {
   const [activeFile, setActiveFile] = useState<string | null>(null);
 
   const [files, setFiles] = useState<FilesType>({});
+  const selectFile = (fileName: string) => {
+    setActiveFile(fileName);
+  };
+  
 
   useEffect(() => {
     if (codeDisplayRef.current) {
@@ -82,7 +86,12 @@ export default function Home() {
 
   return (
     <>
-      <Navbar wrapText={wrapText} createFile={createFile}/>
+      <Navbar  wrapText={wrapText}
+      createFile={createFile}
+      selectFile={selectFile}
+      fileNames={Object.keys(files)}
+      activeFile={activeFile}
+      />
       {!activeFile && (
         <div className="text-white text-center mt-[350px] font-bold text-[24px]">
           Welcome To DevNote

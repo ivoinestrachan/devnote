@@ -3,9 +3,12 @@ import React, { useState, useRef } from 'react';
 type NavbarProps = {
   wrapText: (wrapper: string) => void;
   createFile: (fileName: string) => void;
+  selectFile: (fileName: string) => void;  
+  fileNames: string[]; 
+  activeFile: string | null;
 };
 
-const Navbar: React.FC<NavbarProps> = ({ wrapText, createFile }) => {
+const Navbar: React.FC<NavbarProps> = ({ wrapText, createFile, selectFile, fileNames,  activeFile  }) => {
   const [files, setFiles] = useState<string[]>([]);
   const [isCreatingFile, setIsCreatingFile] = useState(false);
   const [newFileName, setNewFileName] = useState('');
@@ -65,13 +68,15 @@ const Navbar: React.FC<NavbarProps> = ({ wrapText, createFile }) => {
        <button onClick={makeBold} className="font-bold text-white bg-gray-500 pl-2 pr-2 rounded-[4px]">
         B
       </button>
-      <div className="text-white px-2">
-        {files.map((file, index) => (
-          <span key={index} className="gap-4">
-            {file}
-            {index < files.length - 1 && ' || '}
-          </span>
-        ))}
+      <div className="text-white px-2 flex items-center gap-2">
+      {files.map((file, index) => (
+        <button key={index} onClick={() => selectFile(file)} 
+        className={`${file === activeFile ? 'border-b flex items-center bg-gray-500 pl-2 pr-2' : ''}`}
+
+        >
+          {file}
+        </button>
+      ))}
       </div>
     </div>
   );
