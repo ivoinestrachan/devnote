@@ -27,6 +27,18 @@ export default function Home() {
     }
   };
 
+const blinker = () => {
+  const lines = code.split('\n');
+  const lineNumber = lines.length;
+  const lastLineLength = lines[lineNumber - 1].length;
+  return {
+    top: (lineNumber - 1) * 1.5 + "em",
+    left: lastLineLength % 60 + "ch" 
+  };
+};
+
+  
+
   return (
     <>
     <Navbar />
@@ -45,11 +57,13 @@ export default function Home() {
           />
           <pre
             ref={codeDisplayRef}
-            className="code-display absolute top-0 left-0 w-full h-full z-0 overflow-hidden font-mono bg-black text-white"
+            className="code-display absolute top-0 left-0 w-full h-full z-0 overflow-hidden font-mono bg-black text-white flex"
           >
             <code className='language-javascript'>
               {code}
             </code>
+            <div className="absolute h-[1.4rem] bg-white w-[4px] blinker" style={{ top: blinker().top, left: blinker().left }}></div>
+
           </pre>
         </div>
         <style jsx>{`
@@ -60,6 +74,15 @@ export default function Home() {
             padding: 0;
             box-sizing: border-box;
             background: black;
+          }
+
+          .blinker {
+            animation: blink-animation 1s steps(5, start) infinite;
+          }
+          @keyframes blink-animation {
+            to {
+              visibility: hidden;
+            }
           }
         `}</style>
       </div>
