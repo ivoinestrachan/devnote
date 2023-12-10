@@ -18,6 +18,7 @@ const Navbar: React.FC<NavbarProps> = ({
   const [files, setFiles] = useState<string[]>([]);
   const [isCreatingFile, setIsCreatingFile] = useState(false);
   const [newFileName, setNewFileName] = useState("");
+  const [isSplitScreen, setIsSplitScreen] = useState(false); 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const makeBold = () => wrapText("**");
@@ -76,6 +77,24 @@ const Navbar: React.FC<NavbarProps> = ({
     }
   };
 
+  const handleSplitScreen = () => {
+    setIsSplitScreen((prev) => !prev);
+  };
+
+
+  const handleFileClick = (file: string) => {
+    if (isSplitScreen) {
+      splitScreenAction(file);
+    } else {
+      // If not in split screen mode, select the file as usual.
+      selectFile(file);
+    }
+  };
+
+  const splitScreenAction = (file: string) => {
+    console.log(`Split screen for file: ${file}`);
+  };
+
   return (
     <div className="mt-2">
       <button
@@ -118,6 +137,12 @@ const Navbar: React.FC<NavbarProps> = ({
       >
         Bullet List
       </button>
+
+      <button onClick={handleSplitScreen} className="font-bold text-white bg-gray-500 pl-3 pr-3 rounded-[4px] ml-2">
+        {isSplitScreen ? "Disable Split" : "Enable Split"} 
+      </button>
+
+
       <div className="text-white px-2 flex items-center gap-2">
         {files.map((file, index) => (
           <button

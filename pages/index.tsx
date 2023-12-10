@@ -8,6 +8,8 @@ export default function Home() {
   const codeDisplayRef = useRef<HTMLPreElement>(null);
   const [activeFile, setActiveFile] = useState<string | null>(null);
 
+  const [isSplitScreen, setIsSplitScreen] = useState(false);
+
   const [files, setFiles] = useState<FilesType>({});
   const selectFile = (fileName: string) => {
     setActiveFile(fileName);
@@ -33,8 +35,10 @@ export default function Home() {
       "attributesColor": "red"
     }
   };
-  
-  
+
+  const handleSplitScreen = () => {
+    setIsSplitScreen((prev) => !prev);
+  };
 
   useEffect(() => {
     if (codeDisplayRef.current) {
@@ -162,6 +166,7 @@ export default function Home() {
         selectFile={selectFile}
         fileNames={Object.keys(files)}
         activeFile={activeFile}
+        isSplitScreen={isSplitScreen}
       />
 
       {!activeFile && (
