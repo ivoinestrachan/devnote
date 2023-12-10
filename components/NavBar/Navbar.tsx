@@ -4,6 +4,7 @@ type NavbarProps = {
   wrapText: (wrapper: string) => void;
   createFile: (fileName: string) => void;
   selectFile: (fileName: string) => void;
+  splitScreen: () => void;
   fileNames: string[];
   activeFile: string | null;
 };
@@ -12,6 +13,7 @@ const Navbar: React.FC<NavbarProps> = ({
   wrapText,
   createFile,
   selectFile,
+  splitScreen,
   fileNames,
   activeFile,
 }) => {
@@ -118,6 +120,14 @@ const Navbar: React.FC<NavbarProps> = ({
       >
         Bullet List
       </button>
+
+      <button
+        onClick={splitScreen}
+        className="font-bold text-white bg-gray-500 pl-2 pr-2 rounded-[4px] ml-2"
+      >
+        Split Screen
+      </button>
+      
       <div className="text-white px-2 flex items-center gap-2">
         {files.map((file, index) => (
           <button

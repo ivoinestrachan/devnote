@@ -7,6 +7,7 @@ export default function Home() {
   const [code, setCode] = useState("");
   const codeDisplayRef = useRef<HTMLPreElement>(null);
   const [activeFile, setActiveFile] = useState<string | null>(null);
+  const [isSplitScreen, setIsSplitScreen] = useState<boolean>(false);
 
   const [files, setFiles] = useState<FilesType>({});
   const selectFile = (fileName: string) => {
@@ -152,7 +153,9 @@ export default function Home() {
     }
   }, [activeFile, files]);
 
-  
+  const handleSplitScreen = () => {
+    setIsSplitScreen(!isSplitScreen);
+  };
 
   return (
     <>
@@ -162,6 +165,7 @@ export default function Home() {
         selectFile={selectFile}
         fileNames={Object.keys(files)}
         activeFile={activeFile}
+        splitScreen={handleSplitScreen}
       />
 
       {!activeFile && (
@@ -171,10 +175,15 @@ export default function Home() {
       )}
 
       {activeFile && (
-        <div className="flex ">
+        <div className={`flex ${isSplitScreen ? "split-screen" : ""}`}>
+          {isSplitScreen && <div className="w-1 bg-gray-500" />}
+
           <pre className="text-center select-none border-r border-gray-700 text-gray-500 font-mono h-[100vh] px-2">
             {getLineNumbers()}
           </pre>
+
+          {isSplitScreen && <div className="w-1 bg-gray-500" />} {/* Move the split line here */}
+          
           <div className="relative flex-1 flex">
             <textarea
               value={code}
@@ -208,6 +217,10 @@ export default function Home() {
               line-height: 1.5;
               box-sizing: border-box;
               background: black;
+            }
+
+            .split-screen {
+              flex: 0 0 50%;
             }
           `}</style>
         </div>
