@@ -17,17 +17,24 @@
 ```bash
 npm install
 # or
-yarn install
+yarn
 ```
 
-> Secondly, Run the developer environment:
+> Secondly, Run the Developer Environment:
 
 ```bash
 npm run dev
 # or
 yarn dev
+# or if you use tauri
+npm run tauri dev
 ```
 
 > Then Open [http://localhost:3000](http://localhost:3000) with your browser to see the result and start using.
 
+## Technologies
 
+- Nextjs
+- Typescript
+- Tailwindcss
+- Rust
