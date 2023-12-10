@@ -6,6 +6,8 @@ type NavbarProps = {
   selectFile: (fileName: string) => void;
   fileNames: string[];
   activeFile: string | null;
+  isSplitView: any
+  setIsSplitView: any
 };
 
 const Navbar: React.FC<NavbarProps> = ({
@@ -14,7 +16,12 @@ const Navbar: React.FC<NavbarProps> = ({
   selectFile,
   fileNames,
   activeFile,
+  isSplitView,
+  setIsSplitView,
 }) => {
+  const handleSplitScreen = () => {
+    setIsSplitView(!isSplitView);
+  };
   const [files, setFiles] = useState<string[]>([]);
   const [isCreatingFile, setIsCreatingFile] = useState(false);
   const [newFileName, setNewFileName] = useState("");
@@ -120,7 +127,7 @@ const Navbar: React.FC<NavbarProps> = ({
       </button>
 
       <button
-        // onClick={handleSplitScreen}
+        onClick={handleSplitScreen}
         className="font-bold text-white bg-gray-500 pl-3 pr-3 rounded-[4px] ml-2"
       >
         Split
